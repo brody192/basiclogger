@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-var BasicLogger = &basicLogger{logger: io.Writer(os.Stdout)}
+var Logger = &basicLogger{logger: io.Writer(os.Stdout)}
 
 type basicLogger struct {
 	logger io.Writer
