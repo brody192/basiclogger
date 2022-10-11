@@ -1,41 +1,33 @@
-package main
+package basiclogger
 
 import (
 	"log"
 	"os"
 )
 
-type basicLogger struct {
-	// logs [INFO] without "log.Lshortfile"
+var (
 	InfoBasic *log.Logger
 	Info      *log.Logger
 	Warn      *log.Logger
 	Error     *log.Logger
-}
 
-type echoLogger struct {
-	logger basicLogger
-}
-
-var (
-	Logger     = &basicLogger{}
 	EchoLogger = &echoLogger{}
 )
 
-func init() {
-	Logger.Info = log.New(os.Stdout, "[INFO] ", log.Lshortfile)
-	Logger.InfoBasic = log.New(os.Stdout, "[INFO] ", 0)
-	Logger.Warn = log.New(os.Stdout, "[WARNING] ", log.Lshortfile)
-	Logger.Error = log.New(os.Stdout, "[ERROR] ", log.Lshortfile)
+type echoLogger struct{}
 
-	EchoLogger.logger = *Logger
+func init() {
+	Info = log.New(os.Stdout, "[INFO] ", log.Lshortfile)
+	InfoBasic = log.New(os.Stdout, "[INFO] ", 0)
+	Warn = log.New(os.Stdout, "[WARNING] ", log.Lshortfile)
+	Error = log.New(os.Stdout, "[ERROR] ", log.Lshortfile)
 }
 
 func (l *echoLogger) Error(err error) {
-	l.logger.Error.Println(err)
+	Error.Println(err)
 }
 
 func (l *echoLogger) Write(p []byte) (n int, err error) {
-	l.logger.InfoBasic.Println(string(p))
+	InfoBasic.Println(string(p))
 	return len(p), nil
 }
