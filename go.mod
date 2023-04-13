@@ -1,3 +1,3 @@
-module github.com/overrnet/basiclogger
+module github.com/brody192/basiclogger
 
 go 1.20
