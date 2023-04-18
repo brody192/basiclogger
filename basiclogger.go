@@ -1,8 +1,11 @@
 package basiclogger
 
 import (
+	"bytes"
+	"errors"
 	"log"
 	"os"
+	"strings"
 	"unsafe"
 )
 
@@ -29,6 +32,7 @@ func init() {
 var lastError error
 
 func (l *echoLogger) Error(err error) {
+	err = errors.New(strings.TrimSpace(err.Error()))
 	if err != lastError {
 		lastError = err
 		errorBasic.Println(err)
@@ -36,6 +40,7 @@ func (l *echoLogger) Error(err error) {
 }
 
 func (l *echoLogger) Write(b []byte) (n int, err error) {
+	b = bytes.TrimSpace(b)
 	InfoBasic.Println(*(*string)(unsafe.Pointer(&b)))
 	return len(b), nil
 }
